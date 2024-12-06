@@ -1,0 +1,166 @@
+# Navigation specifications schema
+type: object
+properties:
+  domain:
+    type: string
+  version:
+    type: string
+  routes:
+    type: array
+    description: "ルート定義"
+    items:
+      type: object
+      properties:
+        name:
+          type: string
+          description: "ルート名"
+        path:
+          type: string
+          description: "URLパス"
+        screen:
+          type: string
+          description: "表示する画面"
+        responsibility:
+          type: object
+          properties:
+            primary:
+              type: string
+              description: "このルートの単一の主要な責務"
+              maxLength: 100
+            details:
+              type: object
+              properties:
+                business_context:
+                  type: string
+                  description: "ビジネスコンテキストにおける役割"
+                user_flow:
+                  type: string
+                  description: "ユーザーフローにおける位置づけ"
+          required:
+            - primary
+        parameters:
+          type: array
+          description: "ルートパラメータ"
+          items:
+            type: object
+            properties:
+              name:
+                type: string
+              type:
+                type: string
+                enum: ["path", "query", "extra"]
+              required:
+                type: boolean
+              description:
+                type: string
+        state_requirements:
+          type: array
+          description: "このルートに必要な状態"
+          items:
+            type: object
+            properties:
+              provider:
+                type: string
+              purpose:
+                type: string
+              loading_strategy:
+                type: string
+                enum: ["eager", "lazy"]
+        guards:
+          type: array
+          description: "ルートガード"
+          items:
+            type: object
+            properties:
+              condition:
+                type: string
+              redirect_to:
+                type: string
+              reason:
+                type: string
+      required:
+        - name
+        - path
+        - screen
+        - responsibility
+  navigation_patterns:
+    type: array
+    description: "よく使用される遷移パターン"
+    items:
+      type: object
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+        flow:
+          type: array
+          items:
+            type: object
+            properties:
+              from:
+                type: string
+              to:
+                type: string
+              trigger:
+                type: string
+              data_requirements:
+                type: array
+                items:
+                  type: string
+  shell_layout:
+    type: object
+    description: "シェルレイアウトの定義"
+    properties:
+      type:
+        type: string
+        enum: ["bottom_navigation", "navigation_rail", "drawer", "tabs", "custom"]
+      persistent_routes:
+        type: array
+        items:
+          type: string
+      navigation_items:
+        type: array
+        items:
+          type: object
+          properties:
+            label:
+              type: string
+            icon:
+              type: string
+            route:
+              type: string
+  error_handling:
+    type: object
+    properties:
+      not_found:
+        type: object
+        properties:
+          screen:
+            type: string
+          behavior:
+            type: string
+      unauthorized:
+        type: object
+        properties:
+          redirect_to:
+            type: string
+          behavior:
+            type: string
+  deep_linking:
+    type: array
+    items:
+      type: object
+      properties:
+        pattern:
+          type: string
+        route:
+          type: string
+        parameter_mapping:
+          type: object
+          additionalProperties:
+            type: string
+required:
+  - domain
+  - version
+  - routes

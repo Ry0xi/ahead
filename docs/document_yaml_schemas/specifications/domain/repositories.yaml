@@ -1,0 +1,86 @@
+# Repository specifications schema
+$schema: http://json-schema.org/draft-07/schema#
+type: object
+required: ["domain", "version", "repositories"]
+properties:
+  domain:
+    type: string
+    description: "ドメイン名"
+  version:
+    type: string
+    description: "バージョン"
+  repositories:
+    type: array
+    items:
+      type: object
+      required: ["name", "responsibility", "aggregate_root", "business_rules", "error_scenarios"]
+      properties:
+        name:
+          type: string
+          description: "リポジトリ名"
+        responsibility:
+          type: object
+          required: ["primary", "details"]
+          properties:
+            primary:
+              type: string
+              description: "主要な責務"
+            details:
+              type: object
+              required: ["business_context", "domain_rules"]
+              properties:
+                business_context:
+                  type: string
+                  description: "ビジネスコンテキスト"
+                domain_rules:
+                  type: array
+                  items:
+                    type: string
+                  description: "ドメインルール"
+        aggregate_root:
+          type: object
+          required: ["name", "business_invariants", "consistency_rules"]
+          properties:
+            name:
+              type: string
+              description: "集約ルートのエンティティ名"
+            business_invariants:
+              type: array
+              items:
+                type: string
+              description: "集約が保証する不変条件"
+            consistency_rules:
+              type: array
+              items:
+                type: object
+                required: ["rule", "rationale", "enforcement"]
+                properties:
+                  rule:
+                    type: string
+                  rationale:
+                    type: string
+                  enforcement:
+                    type: string
+                    enum: ["immediate", "eventual"]
+        business_rules:
+          type: array
+          items:
+            type: object
+            required: ["rule", "rationale"]
+            properties:
+              rule:
+                type: string
+              rationale:
+                type: string
+        error_scenarios:
+          type: array
+          items:
+            type: object
+            required: ["scenario", "business_impact", "mitigation"]
+            properties:
+              scenario:
+                type: string
+              business_impact:
+                type: string
+              mitigation:
+                type: string

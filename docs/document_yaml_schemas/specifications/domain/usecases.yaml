@@ -1,0 +1,93 @@
+# Usecase specifications schema for Riverpod
+$schema: http://json-schema.org/draft-07/schema#
+type: object
+required: ["domain", "version", "data_specifications", "usecases"]
+properties:
+  domain:
+    type: string
+    description: "ドメイン名"
+  version:
+    type: string
+    description: "バージョン"
+  data_specifications:
+    type: object
+    description: "ドメインで使用するデータの仕様"
+    properties:
+      weather:
+        type: object
+        properties:
+          temperature:
+            type: object
+          humidity:
+            type: object
+          wind_speed:
+            type: object
+          apparent_temperature:
+            type: object
+          cache:
+            type: object
+      location:
+        type: object
+        properties:
+          mock:
+            type: object
+  usecases:
+    type: array
+    description: "コマンド型のユースケース"
+    items:
+      type: object
+      required: ["name", "command", "input", "output", "error_scenarios"]
+      properties:
+        name:
+          type: string
+          description: "ユースケース名"
+        command:
+          type: object
+          required: ["action", "business_context"]
+          properties:
+            action:
+              type: string
+              description: "実行するアクション"
+            business_context:
+              type: string
+              description: "ビジネス上の目的"
+        input:
+          type: object
+          description: "コマンドの入力パラメータ"
+          additionalProperties:
+            type: object
+            properties:
+              type:
+                type: string
+              mock:
+                type: boolean
+              optional:
+                type: boolean
+              default:
+                type: ["string", "number", "boolean"]
+        output:
+          type: object
+          description: "コマンドの出力"
+          required: ["success_state", "error_state"]
+          properties:
+            success_state:
+              type: string
+              description: "成功時の状態"
+            error_state:
+              type: string
+              description: "エラー時の状態"
+        error_scenarios:
+          type: array
+          items:
+            type: object
+            required: ["error_type", "business_impact", "recovery_action"]
+            properties:
+              error_type:
+                type: string
+                description: "エラーの種類"
+              business_impact:
+                type: string
+                description: "ビジネスへの影響"
+              recovery_action:
+                type: string
+                description: "回復のためのアクション"

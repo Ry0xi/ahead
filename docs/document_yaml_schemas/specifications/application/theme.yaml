@@ -1,0 +1,58 @@
+type: object
+description: "アプリケーション全体のテーマ設定を定義するスキーマ"
+properties:
+  color_palette:
+    type: object
+    description: "アプリケーション全体で使用する色パレットの定義"
+    properties:
+      primary:
+        type: string
+        description: "プライマリカラー（主要なアクション、強調表示に使用）"
+      secondary:
+        type: string
+        description: "セカンダリカラー（補助的なアクション、アクセントに使用）"
+      background:
+        type: string
+        description: "背景色（画面の基本背景色）"
+      surface:
+        type: string
+        description: "サーフェス色（カード、ダイアログなどの表面色）"
+      error:
+        type: string
+        description: "エラー色（エラー状態、警告の表示に使用）"
+  typography:
+    type: object
+    description: "テキストスタイルとフォントの定義"
+    properties:
+      font_family:
+        type: string
+        description: "アプリケーション全体で使用する基本フォント"
+      text_styles:
+        type: array
+        description: "テキストスタイルのバリエーション定義"
+        items:
+          type: object
+          properties:
+            name:
+              type: string
+              description: "スタイル名（headline1, body1など）"
+            style:
+              type: string
+              description: "フォントサイズ、ウェイト等のスタイル定義"
+  spacing_system:
+    type: object
+    description: "レイアウトのスペーシングシステム"
+    properties:
+      base_unit:
+        type: integer
+        description: "スペーシングの基本単位（ピクセル）"
+      scale:
+        type: array
+        description: "基本単位に対する倍率のスケール"
+        items:
+          type: number
+          description: "倍率（0.5, 1, 1.5など）"
+required:
+  - color_palette
+  - typography
+  - spacing_system 

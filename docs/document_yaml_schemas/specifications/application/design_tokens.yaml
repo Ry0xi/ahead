@@ -1,0 +1,69 @@
+type: object
+description: "デザインシステムの基本的な設計要素を定義するスキーマ"
+properties:
+  colors:
+    type: object
+    description: "アプリケーション全体で使用する色定義"
+    properties:
+      primary:
+        type: string
+        description: "プライマリカラー（HEX形式）"
+      secondary:
+        type: string
+        description: "セカンダリカラー（HEX形式）"
+      background:
+        type: string
+        description: "背景色（HEX形式）"
+      surface:
+        type: string
+        description: "サーフェス色（HEX形式）"
+      error:
+        type: string
+        description: "エラー色（HEX形式）"
+  spacing:
+    type: object
+    description: "一貫したスペーシングを提供するための定義"
+    properties:
+      xs:
+        type: integer
+        description: "超小サイズのスペーシング（4px）"
+      sm:
+        type: integer
+        description: "小サイズのスペーシング（8px）"
+      md:
+        type: integer
+        description: "中サイズのスペーシング（16px）"
+      lg:
+        type: integer
+        description: "大サイズのスペーシング（24px）"
+      xl:
+        type: integer
+        description: "超大サイズのスペーシング（32px）"
+  typography:
+    type: object
+    description: "タイポグラフィの定義"
+    properties:
+      headline:
+        type: object
+        description: "見出し用のテキストスタイル"
+        properties:
+          fontSize:
+            type: integer
+            description: "フォントサイズ（ピクセル）"
+          fontWeight:
+            type: string
+            description: "フォントの太さ（bold/normal）"
+      body:
+        type: object
+        description: "本文用のテキストスタイル"
+        properties:
+          fontSize:
+            type: integer
+            description: "フォントサイズ（ピクセル）"
+          fontWeight:
+            type: string
+            description: "フォントの太さ（bold/normal）"
+required:
+  - colors
+  - spacing
+  - typography 

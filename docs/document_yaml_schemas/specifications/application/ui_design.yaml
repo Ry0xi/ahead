@@ -1,0 +1,40 @@
+# UI specifications schema for Flutter
+type: object
+description: "Flutterアプリケーションのユーザーインターフェース仕様を定義するスキーマ"
+properties:
+  domain:
+    type: string
+    description: "アプリケーションのドメイン名"
+  version:
+    type: string
+    description: "仕様のバージョン"
+  screens:
+    type: array
+    description: "アプリケーションの画面定義リスト"
+    items:
+      type: object
+      description: "個別の画面定義への参照"
+      properties:
+        $ref:
+          type: string
+          description: "画面定義ファイルへの参照パス"
+  theme:
+    type: object
+    description: "アプリケーションのテーマ設定"
+    properties:
+      $ref:
+        type: string
+        description: "テーマ定義ファイルへの参照パス"
+  design_tokens:
+    type: object
+    description: "デザインシステムのトークン定義"
+    properties:
+      $ref:
+        type: string
+        description: "デザイントークン定義ファイルへの参照パス"
+required:
+  - domain
+  - version
+  - screens
+  - theme
+  - design_tokens

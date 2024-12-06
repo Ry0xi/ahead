@@ -1,0 +1,205 @@
+# Requirements schema for features
+$schema: http://json-schema.org/draft-07/schema#
+type: object
+properties:
+  project:
+    type: string
+    description: "プロジェクト名"
+  version:
+    type: string
+  feature:
+    type: string
+    description: "機能名"
+  overview:
+    type: object
+    properties:
+      description:
+        type: string
+        description: "この機能の概要説明"
+      objectives:
+        type: array
+        description: "この機能の目的"
+        items:
+          type: object
+          properties:
+            objective:
+              type: string
+            rationale:
+              type: string
+              description: "この目的が重要である理"
+            success_criteria:
+              type: array
+              items:
+                type: string
+    required:
+      - description
+      - objectives
+
+  core_features:
+    type: array
+    description: "この機能のコア機能一覧"
+    items:
+      type: object
+      properties:
+        name:
+          type: string
+        business_value:
+          type: string
+          description: "この機能がもたらすビジネス価値"
+        requirements:
+          type: array
+          items:
+            type: object
+            properties:
+              requirement:
+                type: string
+              priority:
+                type: string
+                enum: ["must", "should", "could", "wont"]
+              rationale:
+                type: string
+                description: "この要件が必要な理由"
+        constraints:
+          type: array
+          items:
+            type: object
+            properties:
+              constraint:
+                type: string
+              impact:
+                type: string
+              mitigation:
+                type: string
+        acceptance_criteria:
+          type: array
+          items:
+            type: string
+    required:
+      - name
+      - business_value
+      - requirements
+
+  dependencies:
+    type: array
+    description: "他の機能やシステムへの依存関係"
+    items:
+      type: object
+      properties:
+        feature:
+          type: string
+          description: "依存する機能名"
+        type:
+          type: string
+          enum: ["required", "optional"]
+        description:
+          type: string
+          description: "依存関係の詳細"
+
+  future_features:
+    type: array
+    description: "将来追加予定の機能"
+    items:
+      type: object
+      properties:
+        name:
+          type: string
+        rationale:
+          type: string
+          description: "将来対応とする理由"
+        business_impact:
+          type: string
+          description: "この機能が無いことによるビジネスへの影響"
+        planned_phase:
+          type: string
+          description: "実装を予定しているフェーズ"
+
+  technical_requirements:
+    type: array
+    description: "技術要件"
+    items:
+      type: object
+      properties:
+        category:
+          type: string
+        requirements:
+          type: array
+          items:
+            type: object
+            properties:
+              requirement:
+                type: string
+              rationale:
+                type: string
+              constraints:
+                type: array
+                items:
+                  type: string
+
+  error_scenarios:
+    type: array
+    description: "エラーシナリオ"
+    items:
+      type: object
+      properties:
+        scenario:
+          type: string
+        business_impact:
+          type: string
+        mitigation:
+          type: string
+
+  development_phases:
+    type: array
+    description: "開発フェーズ（common要件の場合のみ使用）"
+    items:
+      type: object
+      properties:
+        phase:
+          type: string
+        objectives:
+          type: array
+          items:
+            type: string
+        business_priorities:
+          type: array
+          description: "このフェーズでのビジネス優先事項"
+          items:
+            type: string
+        dependencies:
+          type: array
+          description: "このフェーズの前提条件"
+          items:
+            type: string
+
+  assumptions_and_constraints:
+    type: array
+    description: "前提条件と制約（common要件の場合のみ使用）"
+    items:
+      type: object
+      properties:
+        category:
+          type: string
+        assumptions:
+          type: array
+          items:
+            type: object
+            properties:
+              assumption:
+                type: string
+              impact_if_invalid:
+                type: string
+              mitigation_strategy:
+                type: string
+
+required:
+  - project
+  - version
+  - feature
+  - overview
+  - core_features
+  - dependencies
+  - future_features
+  - technical_requirements
+  - error_scenarios
+  - development_phases
+  - assumptions_and_constraints 

@@ -1,0 +1,112 @@
+project: "ahead"
+version: "0.1.0"
+feature: "リマインド表示"
+overview:
+  description: "予定開始前の全画面通知によるリマインド表示"
+  objectives:
+    - objective: "ユーザーが予定を見逃すことを防止する"
+      rationale: "重要な予定の開始時刻を確実に認識させるため"
+      success_criteria:
+        - "予定開始2分前に確実に通知が表示される"
+        - "通知は他のアプリケーションよりも前面に表示される"
+        - "オンラインミーティングへの参加が1クリックで可能"
+
+core_features:
+  - name: "全画面通知"
+    business_value: "ユーザーが重要な予定を見逃すことを防止"
+    requirements:
+      - requirement: "予定開始2分前の全画面通知"
+        priority: "must"
+        rationale: "ユーザーの注意を確実に引くため"
+      - requirement: "オンラインミーティングURLの自動認識と表示"
+        priority: "must"
+        rationale: "ワンクリックでの会議参加を可能にするため"
+      - requirement: "基本的な予定情報の表示"
+        priority: "must"
+        rationale: "タイトル、時間、場所など必須情報の表示"
+    constraints:
+      - constraint: "macOSの画面表示制限"
+        impact: "他のアプリケーションとの競合"
+        mitigation: "macOS Window APIを使用した適切な表示レベルの設定"
+      - constraint: "画面解像度への対応"
+        impact: "異なるディスプレイ設定での表示崩れ"
+        mitigation: "Core Graphicsを使用したディスプレイ管理"
+    acceptance_criteria:
+      - "予定開始2分前に確実に通知が表示される"
+      - "会議URLが存在する場合、参加ボタンが表示される"
+      - "基本的な予定情報が正しく表示される"
+
+dependencies:
+  - feature: "カレンダー連携"
+    type: "required"
+    description: "表示する予定情報の取得"
+  - feature: "バックグラウンド実行"
+    type: "required"
+    description: "適切なタイミングでの通知表示"
+
+technical_requirements:
+  - category: "UI Framework"
+    requirements:
+      - requirement: "iced GUI Framework"
+        rationale: "基本的なUIコンポーネントとレイアウト管理"
+        constraints:
+          - "icedで実現可能なUI要素の制限"
+          - "macOSネイティブ機能との統合"
+  - category: "ネイティブ機能"
+    requirements:
+      - requirement: "objc2 crate"
+        rationale: "安全なObjective-Cランタイムへのアクセス"
+        constraints:
+          - "型安全なインターフェースの利用"
+          - "自動メモリ管理の活用"
+          - "エラー処理の統合"
+      - requirement: "Runtime Integration"
+        rationale: "Objective-Cランタイムとの連携"
+        constraints:
+          - "ClassType traitを使用したクラス定義"
+          - "型安全なメッセージ送信"
+          - "自動参照カウント管理"
+      - requirement: "AppKit Access"
+        rationale: "AppKitフレームワークの利用"
+        constraints:
+          - "型安全なAPIアクセス"
+          - "NSObjectプロトコルの実装"
+          - "イベントハンドリング"
+
+error_scenarios:
+  - scenario: "画面表示権限なし"
+    business_impact: "通知が表示できない"
+    mitigation: "適切な権限要求と説明表示"
+  - scenario: "URLスキーム起動失敗"
+    business_impact: "会議参加機能が使用できない"
+    mitigation: "代替の会議参加方法の提供"
+  - scenario: "ランタイムエラー"
+    business_impact: "アプリケーションのクラッシュ"
+    mitigation: "Result型を使用したエラーハンドリング"
+
+development_phases:
+  - phase: "Phase 1"
+    objectives:
+      - "objc2を使用したAppKit連携の実装"
+      - "型安全なインターフェースの設計"
+      - "エラー処理パターンの確立"
+    business_priorities:
+      - "確実な通知表示"
+      - "アプリケーションの安定性"
+      - "コードの保守性"
+    dependencies:
+      - "UI/UXデザインの確定"
+      - "objc2 crateの機能検証"
+      - "AppKit APIの検証"
+
+assumptions_and_constraints:
+  - category: "ユーザー環境"
+    assumptions:
+      - assumption: "シングルディスプレイ/マルチディスプレイ環境"
+        impact_if_invalid: "表示位置の不適切な制御"
+        mitigation_strategy: "ディプレイ設定の動的検出と適応"
+  - category: "ユーザビリティ"
+    assumptions:
+      - assumption: "キーボード/マウスによる操作"
+        impact_if_invalid: "操作性の低下"
+        mitigation_strategy: "アクセシビリティ対応の検討" 

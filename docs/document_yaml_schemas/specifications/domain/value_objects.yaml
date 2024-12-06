@@ -1,0 +1,90 @@
+# Value Objects specifications schema
+$schema: http://json-schema.org/draft-07/schema#
+type: object
+properties:
+  domain:
+    type: string
+    description: "ドメイン名"
+  version:
+    type: string
+    description: "バージョン"
+  value_objects:
+    type: array
+    items:
+      type: object
+      required:
+        - name
+        - responsibility
+        - business_rules
+        - error_scenarios
+      properties:
+        name:
+          type: string
+          description: "値オブジェクト名"
+        responsibility:
+          type: object
+          required:
+            - primary
+            - details
+          properties:
+            primary:
+              type: string
+              description: "主要な責務"
+            details:
+              type: object
+              required:
+                - business_context
+                - domain_rules
+                - validation_rules
+              properties:
+                business_context:
+                  type: string
+                  description: "ビジネスコンテキスト"
+                domain_rules:
+                  type: array
+                  items:
+                    type: string
+                  description: "ドメインルール"
+                validation_rules:
+                  type: array
+                  items:
+                    type: object
+                    required:
+                      - rule
+                      - description
+                    properties:
+                      rule:
+                        type: string
+                      description:
+                        type: string
+        business_rules:
+          type: array
+          items:
+            type: object
+            required:
+              - rule
+              - rationale
+            properties:
+              rule:
+                type: string
+              rationale:
+                type: string
+        error_scenarios:
+          type: array
+          items:
+            type: object
+            required:
+              - scenario
+              - business_impact
+              - mitigation
+            properties:
+              scenario:
+                type: string
+              business_impact:
+                type: string
+              mitigation:
+                type: string
+required:
+  - domain
+  - version
+  - value_objects 
