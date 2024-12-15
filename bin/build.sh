@@ -22,10 +22,9 @@ fi
 # 各コマンドを実行
 for cmd in "${PLIST_COMMANDS[@]}"; do
     # PlistBuddyを使用してキーを追加
-    /usr/libexec/PlistBuddy -c "Add $cmd" "$INFO_PLIST_PATH"
-    
     # キーが既に存在する場合は、値を設定
-    if [ $? -ne 0 ]; then
+    if ! /usr/libexec/PlistBuddy -c "Add $cmd" "$INFO_PLIST_PATH"
+    then
         /usr/libexec/PlistBuddy -c "Set $cmd" "$INFO_PLIST_PATH"
     fi
 done

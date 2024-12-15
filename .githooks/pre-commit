@@ -4,24 +4,25 @@ echo "Running pre-commit checks..."
 
 # Rust のフォーマットチェック
 echo "Running cargo fmt..."
-cargo fmt -- --check
-if [ $? -ne 0 ]; then
+
+if ! cargo fmt -- --check
+then
     echo "Formatting errors found. Run 'cargo fmt' to fix."
     exit 1
 fi
 
 # Clippy による静的解析
 echo "Running cargo clippy..."
-cargo clippy -- -D warnings
-if [ $? -ne 0 ]; then
+if ! cargo clippy -- -D warnings
+then
     echo "Clippy errors found. Please fix the above issues."
     exit 1
 fi
 
 # テストの実行
 echo "Running cargo test..."
-cargo test --all-features
-if [ $? -ne 0 ]; then
+if ! cargo test --all-features
+then
     echo "Tests failed. Please fix the failing tests."
     exit 1
 fi

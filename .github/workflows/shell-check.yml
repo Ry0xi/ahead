@@ -1,0 +1,24 @@
+name: Shell Check
+
+on:
+  push:
+    branches: [ "main" ]
+    paths:
+      - "**/*.sh"
+      - ".githooks/pre-commit"
+      - ".github/workflows/shell-check.yml"
+  pull_request:
+    paths:
+      - "**/*.sh"
+      - ".githooks/pre-commit"
+      - ".github/workflows/shell-check.yml"
+
+jobs:
+  shellcheck:
+    name: ShellCheck
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Run ShellCheck
+        run: find . -type f \( -name "*.sh" -o -name "pre-commit" \) -exec shellcheck {} +

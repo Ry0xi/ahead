@@ -14,6 +14,13 @@ YAMLファイルの更新自体を生成AIで行うことも可能です。
 
 ## 開発環境のセットアップ
 
+### 必要なツール
+- Rust (stable)
+- ShellCheck: `brew install shellcheck`
+
+### VSCode拡張機能
+- [shellcheck](https://marketplace.visualstudio.com/items?itemName=timonwong.shellcheck): シェルスクリプトの静的解析
+
 ### Git hooks
 
 コミット時に自動でコードチェックを実行するために、以下のコマンドでGit hooksを設定してください：
@@ -30,10 +37,15 @@ chmod +x .githooks/pre-commit
 
 ### CI/CD
 
-GitHub Actionsで以下のチェックを自動実行しています：
+以下のチェックを自動実行しています：
+
+**Rust CI**
 - コードフォーマット（`cargo fmt`）
 - 静的解析（`cargo clippy`）
 - テスト（`cargo test`）
+
+**Shell Check**
+- シェルスクリプトの静的解析（`shellcheck`）
 
 ## ビルドと実行
 
