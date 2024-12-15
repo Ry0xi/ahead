@@ -34,3 +34,18 @@ GitHub Actionsで以下のチェックを自動実行しています：
 - コードフォーマット（`cargo fmt`）
 - 静的解析（`cargo clippy`）
 - テスト（`cargo test`）
+
+## ビルドと実行
+
+アプリケーションのビルド：
+```sh
+./bin/build.sh
+```
+
+アプリケーションの実行：
+```sh
+open target/x86_64-apple-darwin/debug/bundle/osx/Ahead.app
+```
+
+> [!NOTE]
+> アプリケーションの実行はmacOSでのみ可能です。
