@@ -27,3 +27,10 @@ chmod +x .githooks/pre-commit
 - `cargo fmt`: コードフォーマットチェック
 - `cargo clippy`: 静的解析
 - `cargo test`: テストの実行
+
+### CI/CD
+
+GitHub Actionsで以下のチェックを自動実行しています：
+- コードフォーマット（`cargo fmt`）
+- 静的解析（`cargo clippy`）
+- テスト（`cargo test`）
