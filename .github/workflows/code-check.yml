@@ -16,6 +16,7 @@ jobs:
     name: Check
     # objc2を利用しているため、macOSで実行する必要がある
     runs-on: macos-latest
+    timeout-minutes: 10
     steps:
       - uses: actions/checkout@v4
 
