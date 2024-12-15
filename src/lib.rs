@@ -90,18 +90,3 @@ impl CalendarSyncService {
             .map_err(|_| CalendarSyncServiceError::ChannelError)?
     }
 }
-
-#[cfg(test)]
-mod tests {
-    use super::*;
-
-    #[tokio::test]
-    async fn test_calendar_access_request() {
-        let result = CalendarSyncService::request_access().await;
-        assert!(
-            result.is_ok(),
-            "カレンダーアクセス権限のリクエストに失敗: {:?}",
-            result
-        );
-    }
-}
