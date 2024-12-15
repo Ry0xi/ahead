@@ -1,7 +1,7 @@
 use std::io;
 
 use ahead::{CalendarSyncService, CalendarSyncServiceError};
-use iced::widget::{text, column, container};
+use iced::widget::{column, container, text};
 use iced::{Element, Task};
 use iced_futures::MaybeSend;
 use objc2::rc::Retained;
@@ -71,10 +71,7 @@ impl AheadApp {
         || {
             (
                 Self::new(),
-                Task::perform(
-                    async { },
-                    |_| Message::RequestCalendarAccess,
-                ),
+                Task::perform(async {}, |_| Message::RequestCalendarAccess),
             )
         }
     }
@@ -87,7 +84,10 @@ impl AheadApp {
         match message {
             Message::RequestCalendarAccess => {
                 // カレンダーアクセス権限のリクエストを実装
-                Task::perform(CalendarSyncService::request_access(), Message::GotCalendarAccess)
+                Task::perform(
+                    CalendarSyncService::request_access(),
+                    Message::GotCalendarAccess,
+                )
             }
             Message::GotCalendarAccess(Ok(granted)) => {
                 // カレンダーアクセス権限のリクエスト結果を処理する
@@ -108,18 +108,18 @@ impl AheadApp {
         let error_msg = if let Some(error) = &self.error {
             let error_text = match error {
                 Error::CalendarAccessRequestFailed(service_error) => match service_error {
-                    CalendarSyncServiceError::PermissionDenied => 
+                    CalendarSyncServiceError::PermissionDenied =>
                         String::from("アプリからのカレンダーへのアクセスを許可してください"),
-                    
-                    CalendarSyncServiceError::StoreAccessError(error_info) | 
-                    CalendarSyncServiceError::EventFetchError(error_info) => 
+
+                    CalendarSyncServiceError::StoreAccessError(error_info) |
+                    CalendarSyncServiceError::EventFetchError(error_info) =>
                         format!(
                             "カレンダーのアクセス権限を取得中に問題が発生しました\ncode: {}, description: {}", 
-                            error_info.code, 
+                            error_info.code,
                             error_info.description
                         ),
-                    
-                    CalendarSyncServiceError::ChannelError => 
+
+                    CalendarSyncServiceError::ChannelError =>
                         String::from("カレンダーのアクセス権限を取得中に問題が発生しました"),
                 }
             };
@@ -128,7 +128,10 @@ impl AheadApp {
         } else {
             text("no error")
         };
-        let calendar_access_granted = text(format!("calendar access granted: {}", self.calendar_access_granted));
+        let calendar_access_granted = text(format!(
+            "calendar access granted: {}",
+            self.calendar_access_granted
+        ));
 
         let body = column![main_text, error_msg, calendar_access_granted].spacing(10);
 
